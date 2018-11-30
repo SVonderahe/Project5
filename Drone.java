@@ -10,10 +10,9 @@ public class Drone extends Vehicle {
     /**
      * Default Contructor 
      */
-    //============================================================================
-    //TODO
-    
-    //============================================================================
+    public Drone() {
+        super();
+    }
 
     /**
      * Constructor
@@ -21,10 +20,9 @@ public class Drone extends Vehicle {
      * @param licensePlate license plate of vehicle
      * @param maxWeight    maximum weight that the vehicle can hold
      */
-    //============================================================================
-    //TODO
-    
-    //============================================================================
+    public Drone(String licensePlate, double maxWeight) {
+        super(licensePlate, maxWeight);
+    }
 
     /*
      * =============================================================================

@@ -33,7 +33,7 @@ public class DatabaseManager {
                 String plate = lines[1];
                 Double maxWeight = Double.parseDouble(lines[2]);
                 if(lines[0].equals("Truck")) {
-                    v = new Truck(plate, maxWeight);
+                    v = new Truck(plate, maxWeight); //Have to use .writeBytes()
                 }
                 if(lines[0].equals("Drone")) {
                     v = new Drone(plate, maxWeight);
@@ -75,7 +75,32 @@ public class DatabaseManager {
      * @return ArrayList of packages
      */
     public static ArrayList<Package> loadPackages(File file) {
-    	//TODO
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            ArrayList<Package> packages = new ArrayList<Package>();
+            Package p = new Package();
+            ShippingAddress sp = new ShippingAddress();
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] lines = line.split(",");
+                String ID = lines[0];
+                String name = lines[1];
+                Double weight = Double.parseDouble(lines[2]);
+                Double price = Double.parseDouble(lines[3]);
+                String addressName = lines[4];
+                String address = lines[5];
+                String city = lines[6];
+                String state = lines[7];
+                Integer zip = Integer.parseInt(lines[8]);
+                sp = new ShippingAddress(addressName, address, city, state, zip);
+                p = new Package(ID, name, weight, price, sp);
+                packages.add(p);
+            }
+            return packages;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<Package>();
     }
     
     

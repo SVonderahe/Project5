@@ -10,10 +10,9 @@ public class CargoPlane extends Vehicle {
     /**
      * Default Constructor
      */
-    //============================================================================
-    //TODO
-    
-    //============================================================================
+    public CargoPlane() {
+        super();
+    }
 
     /**
      * Constructor
@@ -21,10 +20,9 @@ public class CargoPlane extends Vehicle {
      * @param licensePlate license plate of vehicle
      * @param maxWeight    maximum weight that the vehicle can hold
      */
-    //============================================================================
-    //TODO
-    
-    //============================================================================
+    public CargoPlane(String licensePlate, double maxWeight) {
+        super(licensePlate, maxWeight);
+    }
 
     /**
      * Overides its superclass method. Instead, after each iteration, the range will
