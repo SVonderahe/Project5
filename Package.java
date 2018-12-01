@@ -11,23 +11,27 @@ public class Package {
     /**
      * Default Constructor
      */
+    //============================================================================
+    //TODO
     public Package() {
-        this.id = "";
-        this.product = "";
-        this.weight = 0;
-        this.price = 0;
-        this.destination = new ShippingAddress();
+        id = "";
+        product = "";
+        weight = 0;
+        price = 0;
+        destination = new ShippingAddress();
     }
+    //============================================================================
+
     /**
      * Constructor
-     * 
+     *
      * @param id          id number of product
      * @param product     name of product in package
      * @param weight      weight of package
      * @param price       price of product
      * @param destination the destination of the package
-     * 
      */
+    //============================================================================
     public Package(String id, String product, double weight, double price, ShippingAddress destination) {
         this.id = id;
         this.product = product;
@@ -36,108 +40,94 @@ public class Package {
         this.destination = destination;
     }
 
+
+    //============================================================================
+
     /**
      * @return id of package
      */
     public String getID() {
-    	return id;
-    	}
-    
-    
-    
+        return id;
+    }
+
+
     /**
      * @return Name of product in package
      */
     public String getProduct() {
-    	return product;
+        return product;
     }
-    
-    
-    
+
 
     /**
      * @param product the product name to set
      */
     public void setProduct(String product) {
-    	this.product = product;
+        this.product = product;
     }
 
-    
-    
-    
+
     /**
      * @return price of product in package
      */
     public double getPrice() {
-    	return price;
+        return price;
     }
 
-    
-    
-    
+
     /**
      * @param price the price to set
      */
     public void setPrice(double price) {
-    	this.price = price;
+        this.price = price;
     }
 
-    
-    
-    
+
     /**
      * @return Package weight
      */
     public double getWeight() {
-    	return weight;
+        return weight;
     }
 
-    
-    
-    
+
     /**
      * @param weight the weight to set
      */
     public void setWeight(double weight) {
-    	this.weight = weight;
+        this.weight = weight;
     }
 
-    
-    
+
     /**
      * @return The shipping address of package
      */
     public ShippingAddress getDestination() {
-    	return destination;
+        return destination;
     }
 
-    
-    
-    
+
     /**
      * @param destination the shipping address to set
      */
     public void setDestination(ShippingAddress destination) {
-    	this.destination = destination;
+        this.destination = destination;
     }
 
-    
-    
+
     /**
      * @return The package's shipping label.
      */
     public String shippingLabel() {
-        String output = String.format("====================\n" +
-                "TO: %S\n" +
-                "%s\n" +
-                "%s, %s, %d\n" +
-                "Weight:     %f\n" +
-                "Price:      %f\n" +
-                "Product: %s\n" +
-                "====================", destination.getName(), destination.getAddress(),
-                destination.getCity(), destination.getState(), destination.getZipCode(),
-                weight, price, product);
-        return output;
+        return "====================\n" +
+                "TO: " + getDestination().getName() + "\n" +
+                getDestination().getAddress() + "\n" +
+                getDestination().getCity() + ", " +
+                getDestination().getState() + ", " +
+                getDestination().getZipCode() + "\n" +
+                "Weight:         " + getWeight() + "\n" +
+                "Price:        " + getPrice() + "\n" +
+                "Product:" + getProduct() + "\n" +
+                "====================";
     }
-
 }

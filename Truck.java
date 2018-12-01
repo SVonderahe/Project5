@@ -11,9 +11,12 @@ public class Truck extends Vehicle {
     /**
      * Default Constructor
      */
+    //============================================================================
     public Truck() {
         super();
     }
+    
+    //============================================================================
 
     /**
      * Constructor
@@ -21,9 +24,12 @@ public class Truck extends Vehicle {
      * @param licensePlate license plate of vehicle
      * @param maxWeight    maximum weight that the vehicle can hold
      */
+    //============================================================================
     public Truck(String licensePlate, double maxWeight) {
         super(licensePlate, maxWeight);
     }
+    
+    //============================================================================
 
     /*
      * =============================================================================
@@ -38,8 +44,19 @@ public class Truck extends Vehicle {
      */
     @Override
     public double getProfit() {
-        //TODO
-    	
+        int maxRange = getRange(getPackages().get(0));
+        int priceSum = 0;
+
+        for (Package p : getPackages()) {
+            priceSum += p.getPrice();
+
+            if (maxRange < getRange(p)) {
+                maxRange = getRange(p);
+            }
+        }
+
+        double totalGasCost = GAS_RATE * maxRange;
+        return priceSum - totalGasCost;
     }
 
     /**
@@ -56,10 +73,20 @@ public class Truck extends Vehicle {
      */
     @Override
     public String report() {
-        //TODO
-    	
+        String report = "";
+        report +=
+                "==========Truck Report==========\n" +
+                        "License Plate No.: " + getLicensePlate() + "\n" +
+                        "Destination: " + getZipDest() + "\n" +
+                        "Weight Load: " + getCurrentWeight() + "/" + getMaxWeight() + "\n" +
+                        "Net Profit: $" + getProfit() + "\n" +
+                        "=====Shipping Labels=====";
+
+        for (Package p : getPackages()) {
+            report += p.shippingLabel() + "\n";
+        }
+
+        report += "==============================";
+        return report;
     }
-
-
-
 }
