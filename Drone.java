@@ -16,7 +16,7 @@ public class Drone extends Vehicle {
 
     /**
      * Constructor
-     * 
+     *
      * @param licensePlate license plate of vehicle
      * @param maxWeight    maximum weight that the vehicle can hold
      */
@@ -37,8 +37,8 @@ public class Drone extends Vehicle {
      */
     @Override
     public double getProfit() {
-    	//TODO
-    	
+        //TODO
+
     }
 
     /**
@@ -50,14 +50,14 @@ public class Drone extends Vehicle {
      * <li>Net Profit</li>
      * <li>Shipping labels of all packages in truck</li>
      * </ul>
-     * 
+     *
      * @return Truck Report
      */
     @Override
     public String report() {
-    	//TODO
+        //TODO
     }
-    
-   
+
+
 
 }

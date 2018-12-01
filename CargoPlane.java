@@ -32,8 +32,8 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public void fill(ArrayList<Package> warehousePackages) {
-    	//TODO
-        
+        //TODO
+
     }
 
     /*
@@ -50,8 +50,8 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public double getProfit() {
-    	//TODO
-        
+        //TODO
+
     }
 
     /**
@@ -68,10 +68,10 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public String report() {
-    	//TODO
-       
+        //TODO
+
     }
 
-   
-   
+
+
 }
