@@ -10,19 +10,25 @@ public class Drone extends Vehicle {
     /**
      * Default Contructor 
      */
+    //============================================================================
     public Drone() {
         super();
     }
+    
+    //============================================================================
 
     /**
      * Constructor
-     *
+     * 
      * @param licensePlate license plate of vehicle
      * @param maxWeight    maximum weight that the vehicle can hold
      */
+    //============================================================================
     public Drone(String licensePlate, double maxWeight) {
         super(licensePlate, maxWeight);
     }
+    
+    //============================================================================
 
     /*
      * =============================================================================
@@ -37,8 +43,19 @@ public class Drone extends Vehicle {
      */
     @Override
     public double getProfit() {
-        //TODO
+        int maxRange = getRange(getPackages().get(0));
+        int priceSum = 0;
 
+        for (Package p : getPackages()) {
+            priceSum += p.getPrice();
+
+            if (maxRange < getRange(p)) {
+                maxRange = getRange(p);
+            }
+        }
+
+        double totalGasCost = GAS_RATE * maxRange;
+        return priceSum - totalGasCost;
     }
 
     /**
@@ -50,14 +67,25 @@ public class Drone extends Vehicle {
      * <li>Net Profit</li>
      * <li>Shipping labels of all packages in truck</li>
      * </ul>
-     *
+     * 
      * @return Truck Report
      */
     @Override
     public String report() {
-        //TODO
+        String report = "";
+        report +=
+                "==========Drone Report==========\n" +
+                        "License Plate No.: " + getLicensePlate() + "\n" +
+                        "Destination: " + getZipDest() + "\n" +
+                        "Weight Load: " + getCurrentWeight() + "/" + getMaxWeight() + "\n" +
+                        "Net Profit: $" + getProfit() + "\n" +
+                        "=====Shipping Labels=====";
+
+        for (Package p : getPackages()) {
+            report += p.shippingLabel() + "\n";
+        }
+
+        report += "==============================";
+        return report;
     }
-
-
-
 }

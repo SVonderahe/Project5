@@ -10,9 +10,12 @@ public class CargoPlane extends Vehicle {
     /**
      * Default Constructor
      */
+    //============================================================================
     public CargoPlane() {
         super();
     }
+    
+    //============================================================================
 
     /**
      * Constructor
@@ -20,9 +23,12 @@ public class CargoPlane extends Vehicle {
      * @param licensePlate license plate of vehicle
      * @param maxWeight    maximum weight that the vehicle can hold
      */
+    //============================================================================
     public CargoPlane(String licensePlate, double maxWeight) {
         super(licensePlate, maxWeight);
     }
+    
+    //============================================================================
 
     /**
      * Overides its superclass method. Instead, after each iteration, the range will
@@ -32,9 +38,25 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public void fill(ArrayList<Package> warehousePackages) {
-        //TODO
+        int increment = 10;
+        int range = 0;
 
+        // TODO Personal check on labeled loops
+
+        outer:
+        while(true) {
+            for (Package p : warehousePackages) {
+                if (getRange(p) <= range) {
+                    if (!addPackage(p)) {
+                        break outer;
+                    }
+                }
+            }
+            range += increment;
+        }
     }
+
+
 
     /*
      * =============================================================================
@@ -50,8 +72,19 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public double getProfit() {
-        //TODO
+        int maxRange = getRange(getPackages().get(0));
+        int priceSum = 0;
 
+        for (Package p : getPackages()) {
+            priceSum += p.getPrice();
+
+            if (maxRange < getRange(p)) {
+                maxRange = getRange(p);
+            }
+        }
+
+        double totalGasCost = GAS_RATE * maxRange;
+        return priceSum - totalGasCost;
     }
 
     /**
@@ -68,10 +101,20 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public String report() {
-        //TODO
+        String report = "";
+        report +=
+                "==========Cargo Plane Report==========\n" +
+                        "License Plate No.: " + getLicensePlate() + "\n" +
+                        "Destination: " + getZipDest() + "\n" +
+                        "Weight Load: " + getCurrentWeight() + "/" + getMaxWeight() + "\n" +
+                        "Net Profit: $" + getProfit() + "\n" +
+                        "=====Shipping Labels=====";
 
+        for (Package p : getPackages()) {
+            report += p.shippingLabel() + "\n";
+        }
+
+        report += "==============================";
+        return report;
     }
-
-
-
 }
