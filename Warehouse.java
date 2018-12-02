@@ -289,6 +289,7 @@ public class Warehouse {
         switch (choice) {
             case 1:
                 zip = packages.get(0).getDestination().getZipCode();
+                v.setZipDest(zip);
                 break;
             case 2:
                 int occurances = 0;
@@ -307,7 +308,9 @@ public class Warehouse {
                 if (mostOccurances == 1) {
                     zip = packages.get(0).getDestination().getZipCode();
                 }
+                v.setZipDest(zip);
                 break;
+
         }
         v.fill(packages);
         System.out.println(v.report());
