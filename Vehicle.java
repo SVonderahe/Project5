@@ -224,18 +224,17 @@ public class Vehicle implements Profitable {
 
         // TODO Personal check on labeled loops
 
-        outer:
-        while(true) {
+
             for (Package p : warehousePackages) {
                 if (getRange(p) <= range) {
                     if (!addPackage(p)) {
-                        break outer;
+                        return;
                     }
                 }
+                range += increment;
             }
-            range += increment;
         }
-    }
+
 
     public int getRange(Package p) {
         return Math.abs(p.getDestination().getZipCode() - zipDest);
