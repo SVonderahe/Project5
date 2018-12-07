@@ -40,6 +40,31 @@ public class CargoPlane extends Vehicle {
     public void fill(ArrayList<Package> warehousePackages) {
         int increment = 10;
         int range = 0;
+        int maxRange = 0;
+
+        for (Package p : warehousePackages) {
+            if (getRange(p) > maxRange) {
+                maxRange = getRange(p);
+            }
+        }
+
+        while(true) {
+            for (int i = 0; i < warehousePackages.size(); i++) {
+                if (getRange(warehousePackages.get(i)) <= range) {
+                    addPackage(warehousePackages.get(i));
+                }
+
+                if (range >= maxRange && i == warehousePackages.size() - 1) {
+                    return;
+                }
+            }
+            range += increment;
+        }
+    }
+
+    /*public void fill(ArrayList<Package> warehousePackages) {
+        int increment = 10;
+        int range = 0;
 
         // TODO Personal check on labeled loops
 
@@ -54,7 +79,7 @@ public class CargoPlane extends Vehicle {
             }
             range += increment;
         }
-    }
+    }*/
 
 
 

@@ -41,7 +41,7 @@ public class DatabaseManager {
                 if (args[0].equalsIgnoreCase("Truck")) {
                     Truck truck = new Truck(licensePlate, maxWeight);
                     vehicles.add(truck);
-                } else if (args[0].equalsIgnoreCase("CargoPlane")) {
+                } else if (args[0].equalsIgnoreCase("Cargo Plane")) {
                     CargoPlane plane = new CargoPlane(licensePlate, maxWeight);
                     vehicles.add(plane);
                 } else if (args[0].equalsIgnoreCase("Drone")) {
@@ -94,14 +94,13 @@ public class DatabaseManager {
                 String[] args = line.split(",");
                 String id = args[0];
                 String product = args[1];
-                String Name = args[2];
-                double weight = Double.parseDouble(args[3]);
-                double price = Double.parseDouble(args[4]);
-                String name = args[5];
-                String address = args[6];
-                String city = args[7];
-                String state = args[8];
-                int zip = Integer.parseInt(args[9]);
+                double weight = Double.parseDouble(args[2]);
+                double price = Double.parseDouble(args[3]);
+                String name = args[4];
+                String address = args[5];
+                String city = args[6];
+                String state = args[7];
+                int zip = Integer.parseInt(args[8]);
 
                 ShippingAddress destination = new ShippingAddress(name, address, city, state, zip);
                 Package p = new Package(id, product, weight, price, destination);
@@ -168,7 +167,6 @@ public class DatabaseManager {
             System.out.println("Incorrect format in file");
         }
 
-        System.out.println("Incorrectly formatted file for primeDay");
         return numPackages;
     }
 
@@ -197,11 +195,11 @@ public class DatabaseManager {
 
         } catch (IOException e) {
             System.out.println("File path incorrect.");
+            e.printStackTrace();
         } catch (NumberFormatException n) {
             System.out.println("Incorrect format in file");
         }
 
-        System.out.println("Incorrectly formatted file for primeDay");
         return false;
     }
 
@@ -231,7 +229,7 @@ public class DatabaseManager {
                     bw.write("Drone," + drone.getLicensePlate() + "," + drone.getMaxWeight());
                 } else if (v instanceof CargoPlane) {
                     CargoPlane plane = (CargoPlane) v;
-                    bw.write("CargoPlane," + plane.getLicensePlate() + "," + plane.getMaxWeight());
+                    bw.write("Cargo Plane," + plane.getLicensePlate() + "," + plane.getMaxWeight());
                 }
                 bw.newLine();
             }

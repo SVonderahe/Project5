@@ -37,11 +37,11 @@ public class Warehouse {
 
     	//1) load data (vehicle, packages, profits, packages shipped and primeday) from files using DatabaseManager
         while (go) {
-            ArrayList<Package> packages = DatabaseManager.loadPackages(PACKAGE_FILE);
-            int packagesShipped = DatabaseManager.loadPackagesShipped(N_PACKAGES_FILE);
-            boolean primeDay = DatabaseManager.loadPrimeDay(PRIME_DAY_FILE);
-            double profit = DatabaseManager.loadProfit(PROFIT_FILE);
-            ArrayList<Vehicle> vehicles = DatabaseManager.loadVehicles(VEHICLE_FILE);
+            packages = DatabaseManager.loadPackages(PACKAGE_FILE);
+            packagesShipped = DatabaseManager.loadPackagesShipped(N_PACKAGES_FILE);
+            primeDay = DatabaseManager.loadPrimeDay(PRIME_DAY_FILE);
+            profit = DatabaseManager.loadProfit(PROFIT_FILE);
+            vehicles = DatabaseManager.loadVehicles(VEHICLE_FILE);
             //2) Show menu and handle user inputs
 
             String menuOption3;
@@ -65,6 +65,7 @@ public class Warehouse {
 
             // String optionError = "Error: Option not available.";
 
+
             try {
                 option = Integer.parseInt(in.nextLine());
                 if (option < 1 || option > 6) {
@@ -81,7 +82,6 @@ public class Warehouse {
                     addVehicleMenu();
                     break;
                 case 3:
-                    // TODO Price change is currently one way
                     if (!primeDay) {
                         primeDay = true;
                         for (Package p : packages) {
@@ -329,5 +329,17 @@ public class Warehouse {
                 "Packages Shipped:                %d\n" +
                 "Packages in Warehouse:           %d\n" +
                 "==============================\n", nf.format(profit), packagesShipped, packages.size());
+    }
+
+    public static void printStatisticsReport(double profits, int packagesShipped, int numberOfPackages) {
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        String money = nf.format(profits);
+
+
+        System.out.println("==========Statistics==========\n" +
+                "Profits:                 $" + money + "\n" +
+                "Packages Shipped:                " + packagesShipped + "\n" +
+                "Packages in Warehouse:           " + numberOfPackages + "\n" +
+                "==============================");
     }
 }
