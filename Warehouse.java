@@ -29,7 +29,7 @@ public class Warehouse {
     /**
      * Main Method
      * 
-     * @param args list of command line arguements
+     * @param args list of command line arguments
      */
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -37,11 +37,11 @@ public class Warehouse {
 
     	//1) load data (vehicle, packages, profits, packages shipped and primeday) from files using DatabaseManager
         while (go) {
-            ArrayList<Package> packages = DatabaseManager.loadPackages(PACKAGE_FILE);
-            int packagesShipped = DatabaseManager.loadPackagesShipped(N_PACKAGES_FILE);
-            boolean primeDay = DatabaseManager.loadPrimeDay(PRIME_DAY_FILE);
-            double profit = DatabaseManager.loadProfit(PROFIT_FILE);
-            ArrayList<Vehicle> vehicles = DatabaseManager.loadVehicles(VEHICLE_FILE);
+            packages = DatabaseManager.loadPackages(PACKAGE_FILE);
+            packagesShipped = DatabaseManager.loadPackagesShipped(N_PACKAGES_FILE);
+            primeDay = DatabaseManager.loadPrimeDay(PRIME_DAY_FILE);
+            profit = DatabaseManager.loadProfit(PROFIT_FILE);
+            vehicles = DatabaseManager.loadVehicles(VEHICLE_FILE);
             //2) Show menu and handle user inputs
 
             String menuOption3;
@@ -65,13 +65,18 @@ public class Warehouse {
 
             // String optionError = "Error: Option not available.";
 
-            try {
-                option = Integer.parseInt(in.nextLine());
-                if (option < 1 || option > 6) {
+            while (true) {
+                try {
+                    option = Integer.parseInt(in.nextLine());
+                    if (option < 1 || option > 6) {
+                        System.out.println(invalidOptionText);
+                    }
+                    else {
+                        break;
+                    }
+                } catch (NumberFormatException n) {
                     System.out.println(invalidOptionText);
                 }
-            } catch (NumberFormatException n) {
-                System.out.println(invalidOptionText);
             }
             switch (option) {
                 case 1:
@@ -83,11 +88,14 @@ public class Warehouse {
                 case 3:
                     if (!primeDay) {
                         primeDay = true;
-                        for(Package p : packages) {
+                        for (Package p : packages) {
                             p.setPrice(p.getPrice() * 0.85);
                         }
                     } else {
                         primeDay = false;
+                        for (Package p : packages) {
+                            p.setPrice(p.getPrice() / 0.85);
+                        }
                     }
                     break;
                 case 4:
@@ -120,20 +128,26 @@ public class Warehouse {
         String name = s.nextLine();
         System.out.println("Enter Weight:");
         double weight = 0;
-        try {
-            weight = Double.parseDouble(s.nextLine());
-        } catch (NumberFormatException e) {
-            System.out.println("Not a valid number");
+        while (true) {
+            try {
+                weight = Double.parseDouble(s.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Not a valid number");
+            }
         }
         System.out.println("Enter Price:");
         double price = 0;
-        try {
-            price = Double.parseDouble(s.nextLine());
-            if(primeDay){
-                price = price * .85;
+        while (true) {
+            try {
+                price = Double.parseDouble(s.nextLine());
+                if (primeDay) {
+                    price = price * .85;
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Not a valid number");
             }
-        } catch (NumberFormatException e) {
-            System.out.println("Not a valid number");
         }
         System.out.println("Enter Buyer Name:");
         String buyerName = s.nextLine();
@@ -145,10 +159,13 @@ public class Warehouse {
         String state = s.nextLine();
         System.out.println("Enter ZIP Code:");
         int zipCode = 0;
-        try {
-            zipCode = Integer.parseInt(s.nextLine());
-        } catch (NumberFormatException e) {
-            System.out.println("Not a valid number");
+        while (true) {
+            try {
+                zipCode = Integer.parseInt(s.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Not a valid number");
+            }
         }
         ShippingAddress sa = new ShippingAddress(buyerName, address, city, state, zipCode);
         Package p = new Package(id, name, weight, price, sa);
@@ -167,23 +184,29 @@ public class Warehouse {
                 "3) Cargo Plane");
 
         int option = 0;
-
-        try {
-            option = Integer.parseInt(in.nextLine());
-            if (option < 1 || option > 3) {
+        while (true) {
+            try {
+                option = Integer.parseInt(in.nextLine());
+                if (option < 1 || option > 3) {
+                    System.out.println(invalidOptionText);
+                } else {
+                    break;
+                }
+            } catch (NumberFormatException n) {
                 System.out.println(invalidOptionText);
             }
-        } catch (NumberFormatException n) {
-            System.out.println(invalidOptionText);
         }
         System.out.println("Enter License Plate No.:");
         String license = in.nextLine();
         System.out.println("Enter Maximum Carry Weight:");
         double weight = 0;
-        try {
-            weight = Double.parseDouble(in.nextLine());
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid Number");
+        while (true) {
+            try {
+                weight = Double.parseDouble(in.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid Number");
+            }
         }
         Vehicle v = new Vehicle();
         switch (option) {
@@ -214,13 +237,17 @@ public class Warehouse {
                 "3) Send Cargo Plane\n" +
                 "4) Send First Available");
         int choice = 0;
-        try {
-            choice = Integer.parseInt(in.nextLine());
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid number");
-        }
-        if (choice > 4 || choice < 1) {
-            System.out.println("Invalid number");
+        while (true) {
+            try {
+                choice = Integer.parseInt(in.nextLine());
+                if (choice > 4 || choice < 1) {
+                    System.out.println("Invalid number");
+                } else {
+                    break;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number");
+            }
         }
         Vehicle sending = new Vehicle();
         boolean available = false;
@@ -277,13 +304,17 @@ public class Warehouse {
                 "1) Send to first ZIP Code\n" +
                 "2) Send to mode of ZIP Codes");
         int choice = 0;
-        try {
-            choice = Integer.parseInt(in.nextLine());
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid number");
-        }
-        if (choice < 1 || choice > 2) {
-            System.out.println("Invalid Number");
+        while (true) {
+            try {
+                choice = Integer.parseInt(in.nextLine());
+                if (choice < 1 || choice > 2) {
+                    System.out.println("Invalid Number");
+                } else {
+                    break;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number");
+            }
         }
         int zip = 0;
         switch (choice) {
@@ -325,5 +356,17 @@ public class Warehouse {
                 "Packages Shipped:                %d\n" +
                 "Packages in Warehouse:           %d\n" +
                 "==============================\n", nf.format(profit), packagesShipped, packages.size());
+    }
+
+    public static void printStatisticsReport(double profits, int packagesShipped, int numberOfPackages) {
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        String money = nf.format(profits);
+
+
+        System.out.println("==========Statistics==========\n" +
+                "Profits:                 $" + money + "\n" +
+                "Packages Shipped:                " + packagesShipped + "\n" +
+                "Packages in Warehouse:           " + numberOfPackages + "\n" +
+                "==============================");
     }
 }

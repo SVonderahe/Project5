@@ -221,60 +221,40 @@ public class Vehicle implements Profitable {
     public void fill(ArrayList<Package> warehousePackages) {
         int increment = 1;
         int range = 0;
+        int maxRange = 0;
 
-        // TODO Personal check on labeled loops
-
-
-            for (Package p : warehousePackages) {
-                if (getRange(p) <= range) {
-                    if (!addPackage(p)) {
-                        return;
-                    }
-                }
-                range += increment;
+        for (Package p : warehousePackages) {
+            if (getRange(p) > maxRange) {
+                maxRange = getRange(p);
             }
         }
 
+        while(true) {
+            for (int i = 0; i < warehousePackages.size(); i++) {
+                if (getRange(warehousePackages.get(i)) == range) { // changed from <=
+                    addPackage(warehousePackages.get(i));
+                }
+
+                if (range == maxRange && i == warehousePackages.size() - 1) {
+                    return;
+                }
+            }
+            range += increment;
+        }
+    }
 
     public int getRange(Package p) {
-        return Math.abs(p.getDestination().getZipCode() - zipDest);
+        return Math.abs(p.getDestination().getZipCode() - this.getZipDest());
     }
 
     // TODO if something goes wrong, change these from being abstract.
 
     public double getProfit() {
-        int maxRange = getRange(packages.get(0));
-        int priceSum = 0;
-        double gasPrice = 1.66;
-
-        for (Package p : packages) {
-            priceSum += p.getPrice();
-
-            if (maxRange < getRange(p)) {
-                maxRange = getRange(p);
-            }
-        }
-
-        double totalGasCost = gasPrice * maxRange;
-        return priceSum - totalGasCost;
+        return 0;
     }
 
     public String report() {
-        String report = "";
-        report +=
-                "==========Truck Report==========\n" +
-                        "License Plate No.: " + getLicensePlate() + "\n" +
-                        "Destination: " + getZipDest() + "\n" +
-                        "Weight Load: " + getCurrentWeight() + "/" + getMaxWeight() + "\n" +
-                        "Net Profit: $" + getProfit() + "\n" +
-                        "=====Shipping Labels=====";
-
-        for (Package p : packages) {
-            report += p.shippingLabel() + "\n";
-        }
-
-        report += "==============================";
-        return report;
+        return "";
     }
 }
 

@@ -1,3 +1,5 @@
+import java.text.NumberFormat;
+
 /**
  * <h1>Package</h1> Represents a package
  */
@@ -12,7 +14,7 @@ public class Package {
      * Default Constructor
      */
     //============================================================================
-
+    //TODO
     public Package() {
         id = "";
         product = "";
@@ -119,15 +121,28 @@ public class Package {
      * @return The package's shipping label.
      */
     public String shippingLabel() {
-        return "====================\n" +
-                "TO: " + getDestination().getName().toUpperCase() + "\n" +
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        NumberFormat numfor = NumberFormat.getNumberInstance();
+        numfor.setMinimumFractionDigits(2);
+        String weightSpaces = "";
+        String priceSpaces = "";
+        for(int i = 0; i < 13 - numfor.format(getWeight()).length(); i++) {
+            weightSpaces += " ";
+        }
+        for(int i = 0; i < 14 - nf.format(getPrice()).length(); i++) {
+            priceSpaces += " ";
+        }
+        String output = "====================\n" +
+                "TO: " + getDestination().getName() + "\n" +
                 getDestination().getAddress() + "\n" +
                 getDestination().getCity() + ", " +
                 getDestination().getState() + ", " +
                 getDestination().getZipCode() + "\n" +
-                "Weight:         " + getWeight() + "\n" +
-                "Price:        " + getPrice() + "\n" +
+                "Weight:" + weightSpaces + numfor.format(getWeight()) + "\n" +
+                "Price:" + priceSpaces + nf.format(getPrice()) + "\n" +
                 "Product:" + getProduct() + "\n" +
                 "====================";
+        return output;
+
     }
 }

@@ -1,3 +1,4 @@
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 
@@ -40,6 +41,33 @@ public class CargoPlane extends Vehicle {
     public void fill(ArrayList<Package> warehousePackages) {
         int increment = 10;
         int range = 0;
+        int maxRange = 0;
+
+        for (Package p : warehousePackages) {
+            if (getRange(p) > maxRange) {
+                maxRange = getRange(p);
+            }
+        }
+
+        while(true) {
+            for (int i = 0; i < warehousePackages.size(); i++) {
+                if (getRange(warehousePackages.get(i)) <= range) {
+                    if (!getPackages().contains(warehousePackages.get(i))) {
+                        addPackage(warehousePackages.get(i));
+                    }
+                }
+
+                if (range >= maxRange && i == warehousePackages.size() - 1) {
+                    return;
+                }
+            }
+            range += increment;
+        }
+    }
+
+    /*public void fill(ArrayList<Package> warehousePackages) {
+        int increment = 10;
+        int range = 0;
 
         // TODO Personal check on labeled loops
 
@@ -54,7 +82,7 @@ public class CargoPlane extends Vehicle {
             }
             range += increment;
         }
-    }
+    }*/
 
 
 
@@ -73,7 +101,7 @@ public class CargoPlane extends Vehicle {
     @Override
     public double getProfit() {
         int maxRange = getRange(getPackages().get(0));
-        int priceSum = 0;
+        double priceSum = 0;
 
         for (Package p : getPackages()) {
             priceSum += p.getPrice();
@@ -83,7 +111,7 @@ public class CargoPlane extends Vehicle {
             }
         }
 
-        double totalGasCost = GAS_RATE * maxRange;
+        double totalGasCost = GAS_RATE * (double) maxRange;
         return priceSum - totalGasCost;
     }
 
@@ -101,14 +129,17 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public String report() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        NumberFormat numfor = NumberFormat.getNumberInstance();
+        numfor.setMinimumFractionDigits(2);
         String report = "";
         report +=
                 "==========Cargo Plane Report==========\n" +
                         "License Plate No.: " + getLicensePlate() + "\n" +
                         "Destination: " + getZipDest() + "\n" +
-                        "Weight Load: " + getCurrentWeight() + "/" + getMaxWeight() + "\n" +
-                        "Net Profit: $" + getProfit() + "\n" +
-                        "=====Shipping Labels=====";
+                        "Weight Load: " + numfor.format(getCurrentWeight()) + "/" + numfor.format(getMaxWeight()) + "\n" +
+                        "Net Profit: " + nf.format(getProfit()) + "\n" +
+                        "=====Shipping Labels=====\n";
 
         for (Package p : getPackages()) {
             report += p.shippingLabel() + "\n";

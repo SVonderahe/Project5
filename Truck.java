@@ -1,3 +1,4 @@
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 
@@ -45,7 +46,7 @@ public class Truck extends Vehicle {
     @Override
     public double getProfit() {
         int maxRange = getRange(getPackages().get(0));
-        int priceSum = 0;
+        double priceSum = 0;
 
         for (Package p : getPackages()) {
             priceSum += p.getPrice();
@@ -55,7 +56,7 @@ public class Truck extends Vehicle {
             }
         }
 
-        double totalGasCost = GAS_RATE * maxRange;
+        double totalGasCost = GAS_RATE * (double) maxRange;
         return priceSum - totalGasCost;
     }
 
@@ -73,14 +74,17 @@ public class Truck extends Vehicle {
      */
     @Override
     public String report() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        NumberFormat numfor = NumberFormat.getNumberInstance();
+        numfor.setMinimumFractionDigits(2);
         String report = "";
         report +=
                 "==========Truck Report==========\n" +
                         "License Plate No.: " + getLicensePlate() + "\n" +
                         "Destination: " + getZipDest() + "\n" +
-                        "Weight Load: " + getCurrentWeight() + "/" + getMaxWeight() + "\n" +
-                        "Net Profit: $" + getProfit() + "\n" +
-                        "=====Shipping Labels=====";
+                        "Weight Load: " + numfor.format(getCurrentWeight()) + "/" + numfor.format(getMaxWeight()) + "\n" +
+                        "Net Profit: " + nf.format(getProfit()) + "\n" +
+                        "=====Shipping Labels=====\n";
 
         for (Package p : getPackages()) {
             report += p.shippingLabel() + "\n";

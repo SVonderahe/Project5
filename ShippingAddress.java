@@ -15,10 +15,10 @@ public class ShippingAddress {
 
     public ShippingAddress(String name, String address, String city, String state, int zipCode) {
         this.name = name;
-        this.address = address;
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
+        this.address = address;
     }
 
     public String getName() {
