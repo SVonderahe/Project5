@@ -11,7 +11,7 @@ import java.util.concurrent.CancellationException;
  */
 
 public class Warehouse {
-	final static String folderPath = "files/";
+    final static String folderPath = "files/";
     final static File VEHICLE_FILE = new File(folderPath + "VehicleList.csv");
     final static File PACKAGE_FILE = new File(folderPath + "PackageList.csv");
     final static File PROFIT_FILE = new File(folderPath + "Profit.txt");
@@ -28,14 +28,14 @@ public class Warehouse {
 
     /**
      * Main Method
-     * 
+     *
      * @param args list of command line arguments
      */
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         boolean go = true;
 
-    	//1) load data (vehicle, packages, profits, packages shipped and primeday) from files using DatabaseManager
+        //1) load data (vehicle, packages, profits, packages shipped and primeday) from files using DatabaseManager
         while (go) {
             packages = DatabaseManager.loadPackages(PACKAGE_FILE);
             packagesShipped = DatabaseManager.loadPackagesShipped(N_PACKAGES_FILE);
@@ -50,28 +50,25 @@ public class Warehouse {
             } else {
                 menuOption3 = "3) Activate Prime Day\n";
             }
-            System.out.println(
-                    "==========Options==========\n" +
-                            "1) Add Package\n" +
-                            "2) Add Vehicle\n" +
-                            menuOption3 +
-                            "4) Send Vehicle\n" +
-                            "5) Print Statistics\n" +
-                            "6) Exit\n" +
-                            "===========================");
-
-
             int option = 0;
-
-            // String optionError = "Error: Option not available.";
-
             while (true) {
+                System.out.println(
+                        "==========Options==========\n" +
+                                "1) Add Package\n" +
+                                "2) Add Vehicle\n" +
+                                menuOption3 +
+                                "4) Send Vehicle\n" +
+                                "5) Print Statistics\n" +
+                                "6) Exit\n" +
+                                "===========================");
+                // String optionError = "Error: Option not available.";
+
+
                 try {
                     option = Integer.parseInt(in.nextLine());
                     if (option < 1 || option > 6) {
                         System.out.println(invalidOptionText);
-                    }
-                    else {
+                    } else {
                         break;
                     }
                 } catch (NumberFormatException n) {
@@ -117,7 +114,7 @@ public class Warehouse {
             DatabaseManager.saveProfit(PROFIT_FILE, profit);
             DatabaseManager.saveVehicles(VEHICLE_FILE, vehicles);
         }
-    
+
     }
 
     public static void addPackageMenu() {
@@ -126,9 +123,9 @@ public class Warehouse {
         String id = s.nextLine();
         System.out.println("Enter Product Name:");
         String name = s.nextLine();
-        System.out.println("Enter Weight:");
         double weight = 0;
-        while (true) {
+            while (true) {
+        System.out.println("Enter Weight:");
             try {
                 weight = Double.parseDouble(s.nextLine());
                 break;
@@ -136,9 +133,10 @@ public class Warehouse {
                 System.out.println("Not a valid number");
             }
         }
-        System.out.println("Enter Price:");
         double price = 0;
         while (true) {
+        System.out.println("Enter Price:");
+
             try {
                 price = Double.parseDouble(s.nextLine());
                 if (primeDay) {
@@ -157,9 +155,9 @@ public class Warehouse {
         String city = s.nextLine();
         System.out.println("Enter State:");
         String state = s.nextLine();
-        System.out.println("Enter ZIP Code:");
         int zipCode = 0;
         while (true) {
+        System.out.println("Enter ZIP Code:");
             try {
                 zipCode = Integer.parseInt(s.nextLine());
                 break;
@@ -177,14 +175,14 @@ public class Warehouse {
     // TODO unify scanners
     public static void addVehicleMenu() {
         Scanner in = new Scanner(System.in);
-        System.out.println(
-                "Vehicle Options:\n" +
-                "1) Truck\n" +
-                "2) Drone\n" +
-                "3) Cargo Plane");
-
         int option = 0;
         while (true) {
+        System.out.println(
+                "Vehicle Options:\n" +
+                        "1) Truck\n" +
+                        "2) Drone\n" +
+                        "3) Cargo Plane");
+
             try {
                 option = Integer.parseInt(in.nextLine());
                 if (option < 1 || option > 3) {
@@ -198,9 +196,9 @@ public class Warehouse {
         }
         System.out.println("Enter License Plate No.:");
         String license = in.nextLine();
-        System.out.println("Enter Maximum Carry Weight:");
         double weight = 0;
         while (true) {
+        System.out.println("Enter Maximum Carry Weight:");
             try {
                 weight = Double.parseDouble(in.nextLine());
                 break;
@@ -221,23 +219,24 @@ public class Warehouse {
         }
         vehicles.add(v);
     }
+
     public static void sendVehicleMenu() {
         Scanner in = new Scanner(System.in);
-        if(vehicles.size() == 0) {
+        if (vehicles.size() == 0) {
             System.out.println("No vehicles available");
             return;
         }
-        if(packages.size() == 0) {
+        if (packages.size() == 0) {
             System.out.println("No packages available");
             return;
         }
+        int choice = 0;
+        while (true) {
         System.out.println("Options:\n" +
                 "1) Send Truck\n" +
                 "2) Send Drone\n" +
                 "3) Send Cargo Plane\n" +
                 "4) Send First Available");
-        int choice = 0;
-        while (true) {
             try {
                 choice = Integer.parseInt(in.nextLine());
                 if (choice > 4 || choice < 1) {
@@ -253,58 +252,60 @@ public class Warehouse {
         boolean available = false;
         switch (choice) {
             case 1:
-                for(Vehicle v : vehicles) {
-                    if(v instanceof Truck) {
+                for (Vehicle v : vehicles) {
+                    if (v instanceof Truck) {
                         available = true;
                         sending = v;
                         break;
                     }
                 }
-                if(!available) {
+                if (!available) {
                     System.out.println("Error: No vehicles of selected type are available.");
                 } else {
                     send(sending);
                 }
                 break;
             case 2:
-                for(Vehicle v : vehicles) {
-                    if(v instanceof Drone) {
+                for (Vehicle v : vehicles) {
+                    if (v instanceof Drone) {
                         available = true;
                         sending = v;
                         break;
                     }
                 }
-                if(!available) {
+                if (!available) {
                     System.out.println("Error: No vehicles of selected type are available.");
                 } else {
                     send(sending);
                 }
                 break;
             case 3:
-                for(Vehicle v : vehicles) {
-                    if(v instanceof CargoPlane) {
+                for (Vehicle v : vehicles) {
+                    if (v instanceof CargoPlane) {
                         available = true;
                         sending = v;
                         break;
                     }
                 }
-                if(!available) {
+                if (!available) {
                     System.out.println("Error: No vehicles of selected type are available.");
                 } else {
                     send(sending);
                 }
                 break;
-            case 4: sending = vehicles.get(0);
-            send(sending);
+            case 4:
+                sending = vehicles.get(0);
+                send(sending);
         }
     }
+
     public static void send(Vehicle v) {
         Scanner in = new Scanner(System.in);
+        int choice = 0;
+        while (true) {
         System.out.println("ZIP Code Options:\n" +
                 "1) Send to first ZIP Code\n" +
                 "2) Send to mode of ZIP Codes");
-        int choice = 0;
-        while (true) {
             try {
                 choice = Integer.parseInt(in.nextLine());
                 if (choice < 1 || choice > 2) {
@@ -326,12 +327,12 @@ public class Warehouse {
                 int occurances = 0;
                 int mostOccurances = 1;
                 for (int i = 0; i < packages.size(); i++) {
-                    for(int k = 0; k < packages.size(); k++) {
-                        if (packages.get(i).getDestination().getZipCode() == packages.get(k).getDestination().getZipCode()){
+                    for (int k = 0; k < packages.size(); k++) {
+                        if (packages.get(i).getDestination().getZipCode() == packages.get(k).getDestination().getZipCode()) {
                             occurances++;
                         }
                     }
-                    if(occurances > mostOccurances) {
+                    if (occurances > mostOccurances) {
                         mostOccurances = occurances;
                         zip = packages.get(i).getDestination().getZipCode();
                     }
@@ -349,6 +350,7 @@ public class Warehouse {
         v.empty();
 
     }
+
     public static void stats() {
         NumberFormat nf = NumberFormat.getCurrencyInstance();
         System.out.printf("==========Statistics==========\n" +
