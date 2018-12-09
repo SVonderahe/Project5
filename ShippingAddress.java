@@ -18,6 +18,7 @@ public class ShippingAddress {
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
+        this.address = address;
     }
 
     public String getName() {

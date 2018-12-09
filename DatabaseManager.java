@@ -25,7 +25,11 @@ public class DatabaseManager {
      */
     public static ArrayList<Vehicle> loadVehicles(File file) {
         if (!file.exists()) {
-            return null;
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         ArrayList<Vehicle> vehicles = new ArrayList<>();
@@ -83,7 +87,11 @@ public class DatabaseManager {
     // TODO Why can't i name the package package but can name vehicle vehicle
     public static ArrayList<Package> loadPackages(File file) {
         if (!file.exists()) {
-            return null;
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         ArrayList<Package> packages = new ArrayList<>();
@@ -125,13 +133,20 @@ public class DatabaseManager {
      */
     public static double loadProfit(File file) {
         if (!file.exists()) {
-            return 0;
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         double profit = 0;
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = br.readLine();
+            if (line == null) {
+                line = "0.0";
+            }
             profit = Double.parseDouble(line);
 
         } catch (IOException e) {
@@ -152,13 +167,20 @@ public class DatabaseManager {
      */
     public static int loadPackagesShipped(File file) {
         if (!file.exists()) {
-            return 0;
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         int numPackages = 0;
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = br.readLine();
+            if(line == null) {
+                line = "0";
+            }
             numPackages = Integer.parseInt(line);
 
         } catch (IOException e) {
@@ -180,11 +202,18 @@ public class DatabaseManager {
      */
     public static boolean loadPrimeDay(File file) {
         if (!file.exists()) {
-            return false;
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = br.readLine();
+            if(line == null) {
+                line = "0";
+            }
             int primeDay = Integer.parseInt(line);
 
             if (primeDay == 1) {

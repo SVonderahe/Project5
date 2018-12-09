@@ -120,18 +120,44 @@ public class Package {
     /**
      * @return The package's shipping label.
      */
-    public String shippingLabel() {
+    /*public String shippingLabel() {
         NumberFormat nf = NumberFormat.getCurrencyInstance();
-
-        return "====================\n" +
+        NumberFormat numfor = NumberFormat.getNumberInstance();
+        numfor.setMinimumFractionDigits(2);
+        String weightSpaces = "";
+        String priceSpaces = "";
+        for(int i = 0; i < 13 - numfor.format(getWeight()).length(); i++) {
+            weightSpaces += " ";
+        }
+        for(int i = 0; i < 14 - nf.format(getPrice()).length(); i++) {
+            priceSpaces += " ";
+        }
+        String output = "====================\n" +
                 "TO: " + getDestination().getName() + "\n" +
                 getDestination().getAddress() + "\n" +
                 getDestination().getCity() + ", " +
                 getDestination().getState() + ", " +
                 getDestination().getZipCode() + "\n" +
-                "Weight:         " + getWeight() + "\n" +
-                "Price:        " + nf.format(getPrice()) + "\n" +
+                "Weight:" + weightSpaces + numfor.format(getWeight()) + "\n" +
+                "Price:" + priceSpaces + nf.format(getPrice()) + "\n" +
                 "Product:" + getProduct() + "\n" +
                 "====================";
+        return output;
+
+    }*/
+    public String shippingLabel() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+
+        String label = "====================\n" +
+                "TO: " + getDestination().getName() + "                   \n" +
+                getDestination().getAddress() + "              \n" +
+                getDestination().getCity() + ", " +
+                getDestination().getState() + ", " +
+                getDestination().getZipCode() + "\n" +
+                "Weight:         " + String.format("%.2f", getWeight()) + "\n" +
+                "Price:        " + nf.format(getPrice()) + "\n" +
+                "Product: " + getProduct() + "\n" +
+                "====================";
+        return label;
     }
 }
