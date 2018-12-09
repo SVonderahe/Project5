@@ -120,7 +120,7 @@ public class Package {
     /**
      * @return The package's shipping label.
      */
-    public String shippingLabel() {
+    /*public String shippingLabel() {
         NumberFormat nf = NumberFormat.getCurrencyInstance();
         NumberFormat numfor = NumberFormat.getNumberInstance();
         numfor.setMinimumFractionDigits(2);
@@ -144,5 +144,20 @@ public class Package {
                 "====================";
         return output;
 
+    }*/
+    public String shippingLabel() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+
+        String label = "====================\n" +
+                "TO: " + getDestination().getName() + "                   \n" +
+                getDestination().getAddress() + "              \n" +
+                getDestination().getCity() + ", " +
+                getDestination().getState() + ", " +
+                getDestination().getZipCode() + "\n" +
+                "Weight:         " + String.format("%.2f", getWeight()) + "\n" +
+                "Price:        " + nf.format(getPrice()) + "\n" +
+                "Product: " + getProduct() + "\n" +
+                "====================";
+        return label;
     }
 }
