@@ -1,12 +1,18 @@
 import java.io.*;
 import java.util.ArrayList;
 
-// TODO Might need to make all the load methods throw exceptions. Wait to see after test cases if you can get away without doing it
 
 /**
  * <h1>Database Manager</h1>
  * <p>
  * Used to locally save and retrieve data.
+ *
+ * Loads and saves warehouse information to \files
+ *
+ * @author Sam Vonderahe, Aniruddha Dahad
+ *
+ * @version 12/9/2018
+ *
  */
 public class DatabaseManager {
 
@@ -84,7 +90,6 @@ public class DatabaseManager {
      * @return ArrayList of packages
      */
 
-    // TODO Why can't i name the package package but can name vehicle vehicle
     public static ArrayList<Package> loadPackages(File file) {
         if (!file.exists()) {
             try {
@@ -178,7 +183,7 @@ public class DatabaseManager {
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = br.readLine();
-            if(line == null) {
+            if (line == null) {
                 line = "0";
             }
             numPackages = Integer.parseInt(line);
@@ -211,7 +216,7 @@ public class DatabaseManager {
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = br.readLine();
-            if(line == null) {
+            if (line == null) {
                 line = "0";
             }
             int primeDay = Integer.parseInt(line);

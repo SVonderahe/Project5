@@ -1,12 +1,17 @@
 import java.text.NumberFormat;
 import java.util.ArrayList;
-
-
 /**
  * <h1>CargoPlane</h1> Represents a Cargo Plane
+ *
+ * Creates Vehicle Cargo Plane to be used in Warehouse
+ *
+ * @author Sam Vonderahe, Aniruddha Dahad
+ *
+ * @version 12/9/2018
+ *
  */
 public class CargoPlane extends Vehicle {
-    final double GAS_RATE = 2.33;
+    final double gasRate = 2.33;
 
     /**
      * Default Constructor
@@ -15,7 +20,7 @@ public class CargoPlane extends Vehicle {
     public CargoPlane() {
         super();
     }
-    
+
     //============================================================================
 
     /**
@@ -28,7 +33,7 @@ public class CargoPlane extends Vehicle {
     public CargoPlane(String licensePlate, double maxWeight) {
         super(licensePlate, maxWeight);
     }
-    
+
     //============================================================================
 
     /**
@@ -38,7 +43,36 @@ public class CargoPlane extends Vehicle {
      * @param warehousePackages List of packages to add from
      */
     @Override
+
     public void fill(ArrayList<Package> warehousePackages) {
+        int increment = 10;
+        int range = 0;
+        int maxRange = 0;
+
+        for (Package p : warehousePackages) {
+            if (getRange(p) > maxRange) {
+                maxRange = getRange(p);
+            }
+        }
+
+        while (true) {
+            for (int i = 0; i < warehousePackages.size(); i++) {
+                if (getRange(warehousePackages.get(i)) <= range) { // changed from <=
+                    if (addPackage(warehousePackages.get(i))) {
+                        warehousePackages.remove(i);
+                        i--;
+                    }
+                }
+
+                if (range >= maxRange && (warehousePackages.size() == 0 || i == warehousePackages.size() - 1)) {
+                    return;
+                }
+            }
+            range += increment;
+        }
+    }
+
+    /*public void fill(ArrayList<Package> warehousePackages) {
         int increment = 10;
         int range = 0;
         int maxRange = 0;
@@ -54,6 +88,7 @@ public class CargoPlane extends Vehicle {
                 if (getRange(warehousePackages.get(i)) <= range) {
                     if (!getPackages().contains(warehousePackages.get(i))) {
                         addPackage(warehousePackages.get(i));
+                        warehousePackages.remove(i);
                     }
                 }
 
@@ -63,13 +98,13 @@ public class CargoPlane extends Vehicle {
             }
             range += increment;
         }
-    }
+    }*/
 
     /*public void fill(ArrayList<Package> warehousePackages) {
         int increment = 10;
         int range = 0;
 
-        // TODO Personal check on labeled loops
+
 
         outer:
         while(true) {
@@ -111,7 +146,7 @@ public class CargoPlane extends Vehicle {
             }
         }
 
-        double totalGasCost = GAS_RATE * (double) maxRange;
+        double totalGasCost = gasRate * (double) maxRange;
         return priceSum - totalGasCost;
     }
 
@@ -137,7 +172,8 @@ public class CargoPlane extends Vehicle {
                 "==========Cargo Plane Report==========\n" +
                         "License Plate No.: " + getLicensePlate() + "\n" +
                         "Destination: " + getZipDest() + "\n" +
-                        "Weight Load: " + numfor.format(getCurrentWeight()) + "/" + numfor.format(getMaxWeight()) + "\n" +
+                        "Weight Load: " + numfor.format(getCurrentWeight())
+                        + "/" + numfor.format(getMaxWeight()) + "\n" +
                         "Net Profit: " + nf.format(getProfit()) + "\n" +
                         "=====Shipping Labels=====\n";
 

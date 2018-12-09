@@ -1,15 +1,25 @@
+
 /**
  * <h1>Shipping Address</h1> Represents a shipping address
+ * <p>
+ * Creates Object Shipping Address to store delivery information
+ * in packages
+ *
+ * @author Sam Vonderahe, Aniruddha Dahad
+ * @version 12/9/2018
  */
 public class ShippingAddress {
-	private String name;
-	private String address;
-	private String city;
-	private String state;
-	private int zipCode;
+    private String name;
+    private String address;
+    private String city;
+    private String state;
+    private int zipCode;
 
-	public ShippingAddress() {
-        name = address = city = state = "";
+    public ShippingAddress() {
+        name = "";
+        address = "";
+        city = "";
+        state = "";
         zipCode = 0;
     }
 

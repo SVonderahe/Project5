@@ -2,6 +2,14 @@ import java.text.NumberFormat;
 
 /**
  * <h1>Package</h1> Represents a package
+ *
+ * Creates Object Package to store address
+ * and product information
+ *
+ * @author Sam Vonderahe, Aniruddha Dahad
+ *
+ * @version 12/9/2018
+ *
  */
 public class Package {
     private String id;
@@ -14,7 +22,7 @@ public class Package {
      * Default Constructor
      */
     //============================================================================
-    //TODO
+
     public Package() {
         id = "";
         product = "";

@@ -1,24 +1,30 @@
-import javax.print.attribute.standard.NumberUp;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.CancellationException;
 
 /**
  * <h1>Warehouse</h1>
+ *
+ * Creates Object Warehouse that will be used for
+ * maintaning vehicles and packages
+ *
+ * @author Sam Vonderahe, Aniruddha Dahad
+ *
+ * @version 12/9/2018
+ *
  */
 
 public class Warehouse {
-    final static String folderPath = "files/";
-    final static File VEHICLE_FILE = new File(folderPath + "VehicleList.csv");
-    final static File PACKAGE_FILE = new File(folderPath + "PackageList.csv");
-    final static File PROFIT_FILE = new File(folderPath + "Profit.txt");
-    final static File N_PACKAGES_FILE = new File(folderPath + "NumberOfPackages.txt");
-    final static File PRIME_DAY_FILE = new File(folderPath + "PrimeDay.txt");
+    static Scanner in = new Scanner(System.in);
+    final static String FOLDER_PATH = "files/";
+    final static File VEHICLE_FILE = new File(FOLDER_PATH + "VehicleList.csv");
+    final static File PACKAGE_FILE = new File(FOLDER_PATH + "PackageList.csv");
+    final static File PROFIT_FILE = new File(FOLDER_PATH + "Profit.txt");
+    final static File N_PACKAGES_FILE = new File(FOLDER_PATH + "NumberOfPackages.txt");
+    final static File PRIME_DAY_FILE = new File(FOLDER_PATH + "PrimeDay.txt");
     final static double PRIME_DAY_DISCOUNT = .15;
-    final static String invalidOptionText = "Error: Option not available.";
+    final static String INVALID_OPTION_TEXT = "Error: Option not available.";
 
     static ArrayList<Package> packages = new ArrayList<Package>();
     static int packagesShipped = 0;
@@ -32,7 +38,6 @@ public class Warehouse {
      * @param args list of command line arguments
      */
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
         boolean go = true;
 
         //1) load data (vehicle, packages, profits, packages shipped and primeday) from files using DatabaseManager
@@ -67,12 +72,13 @@ public class Warehouse {
                 try {
                     option = Integer.parseInt(in.nextLine());
                     if (option < 1 || option > 6) {
-                        System.out.println(invalidOptionText);
+                        System.out.println(INVALID_OPTION_TEXT);
                     } else {
+                        System.out.print("\n");
                         break;
                     }
                 } catch (NumberFormatException n) {
-                    System.out.println(invalidOptionText);
+                    System.out.println(INVALID_OPTION_TEXT);
                 }
             }
             switch (option) {
@@ -107,7 +113,8 @@ public class Warehouse {
             }
 
 
-            //3) save data (vehicle, packages, profits, packages shipped and primeday) to files (overwriting them) using DatabaseManager
+            //3) save data (vehicle, packages, profits, packages shipped and primeday)
+            // to files (overwriting them) using DatabaseManager
             DatabaseManager.savePackages(PACKAGE_FILE, packages);
             DatabaseManager.savePackagesShipped(N_PACKAGES_FILE, packagesShipped);
             DatabaseManager.savePrimeDay(PRIME_DAY_FILE, primeDay);
@@ -118,16 +125,16 @@ public class Warehouse {
     }
 
     public static void addPackageMenu() {
-        Scanner s = new Scanner(System.in);
+
         System.out.println("Enter Package ID:");
-        String id = s.nextLine();
+        String id = in.nextLine();
         System.out.println("Enter Product Name:");
-        String name = s.nextLine();
+        String name = in.nextLine();
         double weight = 0;
-            while (true) {
-        System.out.println("Enter Weight:");
+        while (true) {
+            System.out.println("Enter Weight:");
             try {
-                weight = Double.parseDouble(s.nextLine());
+                weight = Double.parseDouble(in.nextLine());
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Not a valid number");
@@ -135,10 +142,10 @@ public class Warehouse {
         }
         double price = 0;
         while (true) {
-        System.out.println("Enter Price:");
+            System.out.println("Enter Price:");
 
             try {
-                price = Double.parseDouble(s.nextLine());
+                price = Double.parseDouble(in.nextLine());
                 if (primeDay) {
                     price = price * .85;
                 }
@@ -148,18 +155,18 @@ public class Warehouse {
             }
         }
         System.out.println("Enter Buyer Name:");
-        String buyerName = s.nextLine();
+        String buyerName = in.nextLine();
         System.out.println("Enter Address:");
-        String address = s.nextLine();
+        String address = in.nextLine();
         System.out.println("Enter City:");
-        String city = s.nextLine();
+        String city = in.nextLine();
         System.out.println("Enter State:");
-        String state = s.nextLine();
+        String state = in.nextLine();
         int zipCode = 0;
         while (true) {
-        System.out.println("Enter ZIP Code:");
+            System.out.println("Enter ZIP Code:");
             try {
-                zipCode = Integer.parseInt(s.nextLine());
+                zipCode = Integer.parseInt(in.nextLine());
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Not a valid number");
@@ -172,33 +179,31 @@ public class Warehouse {
 
     }
 
-    // TODO unify scanners
     public static void addVehicleMenu() {
-        Scanner in = new Scanner(System.in);
         int option = 0;
         while (true) {
-        System.out.println(
-                "Vehicle Options:\n" +
-                        "1) Truck\n" +
-                        "2) Drone\n" +
-                        "3) Cargo Plane");
+            System.out.println(
+                    "Vehicle Options:\n" +
+                            "1) Truck\n" +
+                            "2) Drone\n" +
+                            "3) Cargo Plane");
 
             try {
                 option = Integer.parseInt(in.nextLine());
                 if (option < 1 || option > 3) {
-                    System.out.println(invalidOptionText);
+                    System.out.println(INVALID_OPTION_TEXT);
                 } else {
                     break;
                 }
             } catch (NumberFormatException n) {
-                System.out.println(invalidOptionText);
+                System.out.println(INVALID_OPTION_TEXT);
             }
         }
         System.out.println("Enter License Plate No.:");
         String license = in.nextLine();
         double weight = 0;
         while (true) {
-        System.out.println("Enter Maximum Carry Weight:");
+            System.out.println("Enter Maximum Carry Weight:");
             try {
                 weight = Double.parseDouble(in.nextLine());
                 break;
@@ -221,22 +226,21 @@ public class Warehouse {
     }
 
     public static void sendVehicleMenu() {
-        Scanner in = new Scanner(System.in);
         if (vehicles.size() == 0) {
-            System.out.println("No vehicles available");
+            System.out.println("Error: No vehicles available.");
             return;
         }
         if (packages.size() == 0) {
-            System.out.println("No packages available");
+            System.out.println("Error: No packages available.");
             return;
         }
         int choice = 0;
         while (true) {
-        System.out.println("Options:\n" +
-                "1) Send Truck\n" +
-                "2) Send Drone\n" +
-                "3) Send Cargo Plane\n" +
-                "4) Send First Available");
+            System.out.println("Options:\n" +
+                    "1) Send Truck\n" +
+                    "2) Send Drone\n" +
+                    "3) Send Cargo Plane\n" +
+                    "4) Send First Available");
             try {
                 choice = Integer.parseInt(in.nextLine());
                 if (choice > 4 || choice < 1) {
@@ -300,12 +304,11 @@ public class Warehouse {
     }
 
     public static void send(Vehicle v) {
-        Scanner in = new Scanner(System.in);
         int choice = 0;
         while (true) {
-        System.out.println("ZIP Code Options:\n" +
-                "1) Send to first ZIP Code\n" +
-                "2) Send to mode of ZIP Codes");
+            System.out.println("ZIP Code Options:\n" +
+                    "1) Send to first ZIP Code\n" +
+                    "2) Send to mode of ZIP Codes");
             try {
                 choice = Integer.parseInt(in.nextLine());
                 if (choice < 1 || choice > 2) {
@@ -328,7 +331,8 @@ public class Warehouse {
                 int mostOccurances = 1;
                 for (int i = 0; i < packages.size(); i++) {
                     for (int k = 0; k < packages.size(); k++) {
-                        if (packages.get(i).getDestination().getZipCode() == packages.get(k).getDestination().getZipCode()) {
+                        if (packages.get(i).getDestination().getZipCode() ==
+                                packages.get(k).getDestination().getZipCode()) {
                             occurances++;
                         }
                     }
@@ -360,14 +364,14 @@ public class Warehouse {
                 "==============================\n", nf.format(profit), packagesShipped, packages.size());
     }
 
-    public static void printStatisticsReport(double profits, int packagesShipped, int numberOfPackages) {
+    public static void printStatisticsReport(double profits, int pShipped, int numberOfPackages) {
         NumberFormat nf = NumberFormat.getCurrencyInstance();
         String money = nf.format(profits);
 
 
         System.out.println("==========Statistics==========\n" +
                 "Profits:                 $" + money + "\n" +
-                "Packages Shipped:                " + packagesShipped + "\n" +
+                "Packages Shipped:                " + pShipped + "\n" +
                 "Packages in Warehouse:           " + numberOfPackages + "\n" +
                 "==============================");
     }
